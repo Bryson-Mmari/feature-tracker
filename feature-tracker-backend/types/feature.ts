@@ -10,3 +10,14 @@ export interface Feature {
   status: FeatureStatus;
   created_at?: string;
 }
+
+export interface FeatureFilters {
+  status?: FeatureStatus;
+  page: number;
+  limit: number;
+}
+
+export interface FeatureListResult {
+  data: Feature[];
+  total: number;
+}

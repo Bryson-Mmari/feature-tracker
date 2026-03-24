@@ -1,13 +1,38 @@
 import type { ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../config/db';
-import type { Feature, FeatureStatus } from '../types/feature';
+import type { Feature, FeatureFilters, FeatureListResult, FeatureStatus } from '../types/feature';
 
-interface FeatureRow extends RowDataPacket, Feature {}
+interface FeatureRow extends RowDataPacket, Feature {
+  id: number;
+}
+
+interface CountRow extends RowDataPacket {
+  total: number;
+}
 
 const featureModel = {
-  getAll: async (): Promise<Feature[]> => {
-    const [rows] = await db.query<FeatureRow[]>('SELECT * FROM feature_requests ORDER BY created_at DESC');
-    return rows;
+  getAll: async ({ status, page, limit }: FeatureFilters): Promise<FeatureListResult> => {
+    let query = 'SELECT * FROM feature_requests';
+    let countQuery = 'SELECT COUNT(*) as total FROM feature_requests';
+    const values: Array<string | number> = [];
+
+    if (status) {
+      query += ' WHERE status = ?';
+      countQuery += ' WHERE status = ?';
+      values.push(status);
+    }
+
+    const offset = (page - 1) * limit;
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    values.push(limit, offset);
+
+    const [rows] = await db.query<FeatureRow[]>(query, values);
+    const [countResult] = await db.query<CountRow[]>(countQuery, status ? [status] : []);
+
+    return {
+      data: rows,
+      total: countResult[0]?.total ?? 0,
+    };
   },
 
   create: async (data: Feature): Promise<ResultSetHeader> => {
