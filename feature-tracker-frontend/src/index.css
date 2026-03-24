@@ -1,0 +1,13 @@
+:root {
+  font-family: Manrope, 'Segoe UI', sans-serif;
+  color: #0f2a6b;
+  background: #f1f4f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
