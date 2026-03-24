@@ -4,6 +4,11 @@ import type { Feature, FeatureFilters, FeatureListResult, FeatureStatus } from '
 
 interface FeatureRow extends RowDataPacket, Feature {
   id: number;
+  title: string;
+  description?: string;
+  priority: Feature['priority'];
+  status: FeatureStatus;
+  created_at?: string;
 }
 
 interface CountRow extends RowDataPacket {
@@ -24,14 +29,17 @@ const featureModel = {
 
     const offset = (page - 1) * limit;
     query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    values.push(limit, offset);
+    values.push(Number(limit), Number(offset));
 
     const [rows] = await db.query<FeatureRow[]>(query, values);
-    const [countResult] = await db.query<CountRow[]>(countQuery, status ? [status] : []);
+    const [countResult] = await db.query<CountRow[]>(
+      countQuery,
+      status ? [status] : []
+    );
 
     return {
       data: rows,
-      total: countResult[0]?.total ?? 0,
+      total: countResult[0]?.total ?? 0
     };
   },
 
