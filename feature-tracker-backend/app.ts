@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
 import express, { type Request, type Response } from 'express';
+import cors from 'cors';
 import featureRoutes from './routes/featureRoutes';
 
-const cors = require('cors');
 dotenv.config();
 
-const app = express();
+export const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +18,10 @@ app.get('/', (_req: Request, res: Response) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
