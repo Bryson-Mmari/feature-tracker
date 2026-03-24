@@ -23,6 +23,7 @@ export const getFeatures = async (req: Request, res: Response): Promise<void> =>
       page: pageNumber,
       totalPages: Math.ceil(result.total / limitNumber)
     });
+
   } catch (error) {
     res.status(500).json({ message: getErrorMessage(error) });
   }
@@ -47,6 +48,7 @@ export const createFeature = async (req: Request, res: Response): Promise<void> 
 export const updateFeature = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = Number(req.params.id);
+
     await featureModel.update(id, req.body as Feature);
     res.json({ message: 'Feature updated successfully' });
   } catch (error) {
@@ -65,7 +67,9 @@ export const updateFeatureStatus = async (req: Request, res: Response): Promise<
     }
 
     await featureModel.updateStatus(id, status as FeatureStatus);
+
     res.json({ message: 'Status updated successfully' });
+
   } catch (error) {
     res.status(500).json({ message: getErrorMessage(error) });
   }
@@ -74,6 +78,7 @@ export const updateFeatureStatus = async (req: Request, res: Response): Promise<
 export const deleteFeature = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = Number(req.params.id);
+
     await featureModel.delete(id);
     res.json({ message: 'Feature deleted successfully' });
   } catch (error) {

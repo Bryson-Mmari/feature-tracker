@@ -12,12 +12,24 @@ function Pagination({ page, totalPages, setPage }: PaginationProps) {
   }
 
   return (
-    <div>
-      <button disabled={page === 1} onClick={() => setPage(page - 1)} type="button">
+    <div className="pagination">
+      <button
+        className="secondary-button"
+        disabled={page === 1}
+        onClick={() => setPage(page - 1)}
+        type="button"
+      >
         Prev
       </button>
-      <span> Page {page} of {totalPages} </span>
-      <button disabled={page === totalPages} onClick={() => setPage(page + 1)} type="button">
+
+      <span className="pagination-copy">Page {page} of {totalPages}</span>
+
+      <button
+        className="secondary-button"
+        disabled={page === totalPages}
+        onClick={() => setPage(page + 1)}
+        type="button"
+      >
         Next
       </button>
     </div>
