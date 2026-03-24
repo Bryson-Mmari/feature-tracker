@@ -5,10 +5,24 @@ import type { Feature, FeatureStatus } from '../types/feature';
 const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : 'An unexpected error occurred';
 
-export const getFeatures = async (_req: Request, res: Response): Promise<void> => {
+export const getFeatures = async (req: Request, res: Response): Promise<void> => {
   try {
-    const data = await featureModel.getAll();
-    res.json({ data });
+    const { status, page = 1, limit = 5 } = req.query;
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+    const filters =
+      typeof status === 'string'
+        ? { status: status as FeatureStatus, page: pageNumber, limit: limitNumber }
+        : { page: pageNumber, limit: limitNumber };
+
+    const result = await featureModel.getAll(filters);
+
+    res.json({
+      data: result.data,
+      total: result.total,
+      page: pageNumber,
+      totalPages: Math.ceil(result.total / limitNumber)
+    });
   } catch (error) {
     res.status(500).json({ message: getErrorMessage(error) });
   }
