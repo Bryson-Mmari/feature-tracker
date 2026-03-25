@@ -226,4 +226,4 @@ If you publish this repository, those commits provide a clean progression of the
 
 ## Author
 
-Bryson Mmari, this is my gitbuh profile www.github.com/Bryson-Mmari, and project links before publishing.
+Bryson Mmari, a full-stack Developer, this is my gitbuh profile (https://github.com/Bryson-Mmari), and project repository https://github.com/Bryson-Mmari/feature-tracker.
