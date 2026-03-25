@@ -226,4 +226,4 @@ If you publish this repository, those commits provide a clean progression of the
 
 ## Author
 
-Update this section with your name, GitHub profile, and project links before publishing.
+Bryson Mmari, this is my gitbuh profile www.github.com/Bryson-Mmari, and project links before publishing.
